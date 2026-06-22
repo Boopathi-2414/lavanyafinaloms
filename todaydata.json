@@ -1,0 +1,63 @@
+=======================================================
+  LAVANYA OMS v5 — VERCEL DEPLOYMENT INSTRUCTIONS
+=======================================================
+
+STEP 1: PUSH TO GITHUB
+-----------------------
+git init
+git add .
+git commit -m "v5 vercel deploy"
+git remote add origin https://github.com/YOUR_USERNAME/lavanya-oms.git
+git push -u origin main
+
+
+STEP 2: IMPORT TO VERCEL
+-------------------------
+1. Go to https://vercel.com → "Add New Project"
+2. Import your GitHub repo
+3. Framework: Vite (auto-detected)
+4. Build Command:    npm run build
+5. Output Directory: dist
+6. Click "Deploy" — do NOT touch environment variables yet
+
+
+STEP 3: ADD ENVIRONMENT VARIABLES (CRITICAL)
+---------------------------------------------
+After first deploy, go to:
+  Vercel Dashboard → Your Project → Settings → Environment Variables
+
+Add BOTH of these:
+
+  Key:   VITE_SUPABASE_URL
+  Value: https://your-project-ref.supabase.co
+  (Find this in: Supabase → Your Project → Settings → API → Project URL)
+
+  Key:   VITE_SUPABASE_ANON_KEY
+  Value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+  (Find this in: Supabase → Your Project → Settings → API → anon public)
+
+  ⚠️  The "VITE_" prefix is MANDATORY. Without it, the browser
+      cannot read these values and Supabase will not connect.
+
+After adding both variables → click "Redeploy" (Deployments tab → ••• → Redeploy)
+
+
+STEP 4: CUSTOM DOMAIN
+----------------------
+Vercel → Project → Settings → Domains → Add your domain
+Copy the CNAME or A record shown → add it in your domain registrar's DNS settings
+SSL certificate is automatic (5–10 minutes)
+
+
+WHAT WAS FIXED IN THIS ZIP
+----------------------------
+1. package.json   — Removed Electron/desktop dependencies (electron,
+                    electron-builder, concurrently, wait-on, main.js entry).
+                    These caused Vercel build failures. All React logic
+                    and Supabase code is 100% unchanged.
+
+2. vite.config.js — Changed base from './' to '/' so asset paths
+                    resolve correctly on Vercel's CDN.
+
+No component logic, no Supabase integration, no UI was changed.
+=======================================================
