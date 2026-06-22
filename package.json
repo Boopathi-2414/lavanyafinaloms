@@ -1,8 +1,8 @@
-# v3.16.0 — Bounding-Box AWB Extraction + Historical Data Migration
+ v3.16.0 — Bounding-Box AWB Extraction + Historical Data Migration
 
-## What changed
+ What changed
 
-### 1. PDF Root Cause Fixed (Bounding-Box / Text-Joining)
+ 1. PDF Root Cause Fixed (Bounding-Box / Text-Joining)
 
 The Flipkart/Shopsy/Ekart label prints its AWB barcode in a column
 rotated 90°. pdfjs's `getTextContent()` gives each rotated glyph as a
@@ -27,13 +27,13 @@ reliably reconstruct `AWB No.` as a contiguous keyword.
 **Validated:** all 14 sample labels in `fl.pdf` extracted correctly:
 FMPP, FMPC, SF-prefix (`SF3206441579F`), numeric-only — 14/14 ✓
 
-### 2. Shopsy = Flipkart (Unified Channel)
+ 2. Shopsy = Flipkart (Unified Channel)
 
 `channel === 'Shopsy'` is normalised to `'Flipkart'` in `parseByChannel`.
 Auto-detect also recognises `\bshopsy\b`. Both follow the same Ekart
 AWB extraction path.
 
-### 3. Validation Log
+ 3. Validation Log
 
 - Parse Log now shows an **AWB column** — green value if captured,
   red `⚠ missing` otherwise.
@@ -42,7 +42,7 @@ AWB extraction path.
   failed or produced no AWB. Each entry includes `filename`, `page`,
   `orderId`, `awb`, `status`, `reason`, `timestamp`.
 
-### 4. Historical Data Migration (233 orders + 443 trash records)
+ 4. Historical Data Migration (233 orders + 443 trash records)
 
 Source: `__lavanya_oms_v3_orders__orderId295.json`
 
@@ -60,7 +60,7 @@ Source: `__lavanya_oms_v3_orders__orderId295.json`
 2. Open `migrate_historical_data.sql` from this project root and run it.
 3. Uses `ON CONFLICT (id) DO NOTHING` — safe to run multiple times.
 
-### 5. Data Integrity
+5. Data Integrity
 
 No existing data is modified. The migration only **adds** records that
 are not already present in Supabase. `supabaseData.js`, `db.js`, and
